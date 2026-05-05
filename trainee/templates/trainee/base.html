@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ITIian Project</title>
+</head>
+<body>
+    
+
+    <nav>
+    <a href="{% url 'trainee_list' %}">Trainee List</a> | 
+    <a href="{% url 'add_trainee' %}">Add Trainee</a> | 
+    <a href="/course/list/">Course List</a> | 
+    <a href="/login/">Login</a> | 
+    <a href="/register/">Registration</a>
+</nav>
+
+    <hr>
+
+    
+    {% block content %}
+    {% endblock %}
+
+    <hr>
+
+    {% include 'trainee/footer.html' %}
+</body>
+</html>

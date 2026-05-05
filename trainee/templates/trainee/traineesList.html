@@ -1,0 +1,25 @@
+
+{% endblock %}
+{% extends 'trainee/base.html' %}
+
+{% block content %}
+<h2>Trainee List</h2>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th> 
+    </tr>
+    {% for trainee in trainees %}
+    <tr>
+        <td>{{ trainee.name }}</td>
+        <td>{{ trainee.email }}</td>
+        <td>
+           
+            <a href="{% url 'delete_trainee' trainee.id %}" 
+               onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
