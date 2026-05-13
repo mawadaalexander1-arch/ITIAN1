@@ -1,17 +1,12 @@
 {% extends 'trainee/base.html' %}
 
 {% block content %}
-<h2>Add New Trainee</h2>
+<h2>Insert New Trainee</h2>
 
-<!-- The action is empty so it posts to the same URL, and method must be POST -->
-<form method="POST">
-    {% csrf_token %} <!-- Django security tag required for all forms -->
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
     
-    <label>Name:</label><br>
-    <input type="text" name="name" required><br><br>
-    
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+    {{ form.as_p }}  
     
     <button type="submit">Save Trainee</button>
 </form>

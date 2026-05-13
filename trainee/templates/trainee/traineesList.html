@@ -12,6 +12,16 @@
     </tr>
     {% for trainee in trainees %}
     <tr>
+        <td><a href="{% url 'trainee_detail' trainee.id %}">{{ trainee.name }}</a></td>
+        
+        <td>{{ trainee.email }}</td>
+        
+        <td>
+            <a href="{% url 'hard_delete' trainee.id %}" 
+               onclick="return confirm('Are you sure you want to hard delete?')">Delete</a>
+        </td>
+    </tr>
+    <tr>
         <td>{{ trainee.name }}</td>
         <td>{{ trainee.email }}</td>
         <td>
