@@ -1,47 +1,32 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from .models import Trainee 
 from .forms import TraineeForm
 
-def trainee_list(request):
-    trainees = Trainee.objects.all() 
-    return render(request, 'trainee/traineelist.html', {'trainees': trainees})
+class TraineeList(ListView):
+    model = Trainee
+    template_name = 'trainee/traineelist.html'
+    context_object_name = 'trainees' 
 
-def add_trainee(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        Trainee.objects.create(name=name, email=email)
-        return redirect('trainee_list')
+class TraineeDetail(DetailView):
+    model = Trainee
+    template_name = 'trainee/trainee_detail.html'
+    context_object_name = 'trainee'
+    pk_url_kwarg = 'trainee_id' 
+
+class TraineeCreate(CreateView):
+    model = Trainee
+    form_class = TraineeForm
+    template_name = 'trainee/add_trainee.html'
+    success_url = reverse_lazy('trainee_list')
+
+class TraineeDelete(DeleteView):
+    model = Trainee
+    pk_url_kwarg = 'trainee_id'
+    success_url = reverse_lazy('trainee_list')
     
-    return render(request, 'trainee/add_trainee.html')
-
-def delete_trainee(request, trainee_id):
-    trainee = Trainee.objects.get(id=trainee_id)
-    trainee.delete()
-    return redirect('trainee_list')
-
-def trainee_list(request):
-    trainees = Trainee.objects.all() 
-    return render(request, 'trainee/traineelist.html', {'trainees': trainees})
-
-def trainee_detail(request, trainee_id):
-    trainee = Trainee.objects.get(id=trainee_id)
-    return render(request, 'trainee/trainee_detail.html', {'trainee': trainee})
-
-def insert_trainee(request):
-    if request.method == 'POST':
-        form = TraineeForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('trainee_list')
-    else:
-        form = TraineeForm()
-    return render(request, 'trainee/add_trainee.html', {'form': form})
-
-def hard_delete_trainee(request, trainee_id):
-    trainee = Trainee.objects.get(id=trainee_id)
-    trainee.delete()
-    return redirect('trainee_list')
-
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
 
