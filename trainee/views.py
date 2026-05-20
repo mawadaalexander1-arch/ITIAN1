@@ -5,10 +5,15 @@ from .models import Trainee
 from .forms import TraineeForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Trainee
+from course.models import Course
+from .serializers import TraineeSerializer, CourseSerializer
 
 class TraineeList(LoginRequiredMixin, ListView):
     model = Trainee
-    template_name = 'trainee/traineelist.html'
+    template_name = 'trainee/traineesList.html'
     context_object_name = 'trainees'
     login_url = 'login'
 
@@ -36,3 +41,14 @@ class RegisterUser(CreateView):
     form_class = UserCreationForm
     template_name = 'registration/register.html'
     success_url = reverse_lazy('login') 
+
+
+class TraineeViewSet(viewsets.ModelViewSet):
+    queryset = Trainee.objects.all()
+    serializer_class = TraineeSerializer
+    permission_classes = [IsAuthenticated] 
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [IsAuthenticated]
